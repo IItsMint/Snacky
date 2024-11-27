@@ -1,14 +1,15 @@
 package com.snacky.FoodOrderingApp_Back.Model.Order;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.snacky.FoodOrderingApp_Back.Model.User.User;
+import jakarta.persistence.*;
 
 @Entity
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToOne
+    private User customer;
 
 }
