@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+@AllArgsConstructor
+public class Ingredients {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
