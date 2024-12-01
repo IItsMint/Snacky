@@ -1,5 +1,6 @@
-package com.snacky.FoodOrderingApp_Back.Model.Products;
+package com.snacky.FoodOrderingApp_Back.Model.Order;
 
+import com.snacky.FoodOrderingApp_Back.Model.Product.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,15 +12,16 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Products {
+public class OrderItems {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    private Food food;
+    private Product product;
 
     private int quantity;
     private Long price;
+
     private List<String> ingredients;
 }

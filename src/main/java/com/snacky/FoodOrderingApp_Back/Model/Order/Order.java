@@ -2,7 +2,6 @@ package com.snacky.FoodOrderingApp_Back.Model.Order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.snacky.FoodOrderingApp_Back.Model.Address.Address;
-import com.snacky.FoodOrderingApp_Back.Model.Products.Products;
 import com.snacky.FoodOrderingApp_Back.Model.Restaurant.Restaurant;
 import com.snacky.FoodOrderingApp_Back.Model.User.User;
 import jakarta.persistence.*;
@@ -17,6 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,18 +29,18 @@ public class Order {
     @ManyToOne//relation between order and restaurant.
     private Restaurant restaurant;
 
-    private Long total;
-    private String status;
-    private Date date;
-
-    @ManyToOne//Relation between order and address.
-    private Address address;
-
-    @OneToMany//Relation between order and products.
-    private List<Products> products;
-
+    private Long totalAmount;
+    private String orderStatus;
+    private Date orderDate;
     private int quantity;
     private int totalPrice;
+
+
+    @ManyToOne//Relation between order and address.
+    private Address delivryAddress;
+
+    @OneToMany//many items have same order.
+    private List<OrderItems> products;
 
 
 }

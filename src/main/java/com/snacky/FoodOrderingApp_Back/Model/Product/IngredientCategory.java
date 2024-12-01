@@ -1,4 +1,4 @@
-package com.snacky.FoodOrderingApp_Back.Model.Products;
+package com.snacky.FoodOrderingApp_Back.Model.Product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.snacky.FoodOrderingApp_Back.Model.Restaurant.Restaurant;

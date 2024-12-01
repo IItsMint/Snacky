@@ -3,7 +3,7 @@ package com.snacky.FoodOrderingApp_Back.Model.Restaurant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.snacky.FoodOrderingApp_Back.Model.Address.Address;
 import com.snacky.FoodOrderingApp_Back.Model.Order.Order;
-import com.snacky.FoodOrderingApp_Back.Model.Products.Food;
+import com.snacky.FoodOrderingApp_Back.Model.Product.Product;
 import com.snacky.FoodOrderingApp_Back.Model.User.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -52,5 +52,5 @@ public class Restaurant {
 
     @JsonIgnore //while we fetch restaurant dto, we don't need food list of that object, we will have separate api for fetching food.
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)//to get rid of all the orders, if the restaurant deleted.
-    private List<Food> foods = new ArrayList<>();
+    private List<Product> product = new ArrayList<>();
 }

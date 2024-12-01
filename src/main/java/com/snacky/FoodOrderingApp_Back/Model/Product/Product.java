@@ -1,4 +1,4 @@
-package com.snacky.FoodOrderingApp_Back.Model.Products;
+package com.snacky.FoodOrderingApp_Back.Model.Product;
 
 import com.snacky.FoodOrderingApp_Back.Model.Restaurant.Restaurant;
 import jakarta.persistence.*;
@@ -14,7 +14,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Food {
+public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -38,7 +39,7 @@ public class Food {
     @ManyToOne
     private Category category;
 
-    @ManyToOne //one restaurant can have more than one food.
+    @ManyToOne //one restaurant can have more than one product.
     private Restaurant restaurant;
 
 }
