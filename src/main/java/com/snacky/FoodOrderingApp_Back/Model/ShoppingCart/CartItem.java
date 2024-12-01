@@ -25,6 +25,7 @@ public class CartItem {
     @ManyToOne //many cart items can have same product.
     private Product product;
 
+    @ElementCollection
     private List<String> ingredients;
     private int quantity;
     private Long totalPrice;

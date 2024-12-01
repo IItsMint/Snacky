@@ -37,7 +37,7 @@ public class Order {
 
 
     @ManyToOne//Relation between order and address.
-    private Address delivryAddress;
+    private Address deliveryAddress;
 
     @OneToMany//many items have same order.
     private List<OrderItems> products;

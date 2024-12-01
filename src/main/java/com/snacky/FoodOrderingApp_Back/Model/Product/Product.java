@@ -24,7 +24,7 @@ public class Product {
     private String description;
     private boolean isVegan;
     private boolean isSeasonal;
-    private boolean availability;
+    private boolean isAvailable;
     private Long price;
     private int stock;
     private Date listingDate;
@@ -37,7 +37,7 @@ public class Product {
     private List<String> images;
 
     @ManyToOne
-    private Category category;
+    private Category productCategory;
 
     @ManyToOne //one restaurant can have more than one product.
     private Restaurant restaurant;
