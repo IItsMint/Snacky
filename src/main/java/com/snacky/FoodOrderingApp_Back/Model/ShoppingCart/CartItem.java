@@ -20,7 +20,7 @@ public class CartItem {
 
     @JsonIgnore //whenever we fetch the cart items we don't need cart.
     @ManyToOne
-    private ShoppingCart ShoppingCart;
+    private ShoppingCart cart;
 
     @ManyToOne //many cart items can have same product.
     private Product product;
