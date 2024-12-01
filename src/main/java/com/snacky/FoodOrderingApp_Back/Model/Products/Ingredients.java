@@ -1,9 +1,8 @@
 package com.snacky.FoodOrderingApp_Back.Model.Products;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.snacky.FoodOrderingApp_Back.Model.Restaurant.Restaurant;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +18,13 @@ public class Ingredients {
     private Long id;
 
     private String name;
-    private  ingredientCategory category;
-    private int quantity;
+    private boolean stock = true;
+
+    @ManyToOne //many ingredients have same category.
+    private  IngredientCategory category;
+
+    @JsonIgnore
+    @ManyToOne //one restaurant has multiple ingredients.
+    private Restaurant restaurant;
+
 }
