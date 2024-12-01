@@ -22,7 +22,7 @@ public class ShoppingCart {
     @OneToOne //one user only have one shopping cart
     private User customer;
 
-    @OneToMany(mappedBy = "CartItem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items = new ArrayList<>();
 
     private Long total;
