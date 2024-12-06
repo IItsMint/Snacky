@@ -21,7 +21,7 @@ import java.util.Collections;
 public class AppConfig {
     // Basically we are configuring spring security here.
 
-    @Bean
+
     SecurityFilterChain springSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
