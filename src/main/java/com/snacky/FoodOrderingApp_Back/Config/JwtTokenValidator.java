@@ -41,6 +41,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                 String email = String.valueOf(claims.get("email"));
                 String authorities = (String) claims.get("authorities");
 
+                //Converts the roles string into a list of GrantedAuthority objects, which are used by Spring Security.
                 List<GrantedAuthority> auth = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, auth);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -50,6 +51,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             }
         }
 
+        //After processing the token, the request is passed to the next filter
         filterChain.doFilter(request, response);
     }
 }
