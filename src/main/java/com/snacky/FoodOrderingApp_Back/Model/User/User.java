@@ -25,7 +25,7 @@ public class User {
     private Long id;
 
     @Column(name = "role", nullable = false)
-    private UserRoles role;
+    private UserRoles role = UserRoles.ROLE_CUSTOMER; //let's give them customer role as a default.
 
     @Column(name = "first_name",nullable = false)
     private String firstName;
