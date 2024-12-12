@@ -3,6 +3,7 @@ package com.snacky.FoodOrderingApp_Back.Controller;
 import com.snacky.FoodOrderingApp_Back.Config.AuthResponse;
 import com.snacky.FoodOrderingApp_Back.Config.JwtProvider;
 import com.snacky.FoodOrderingApp_Back.Dto.LoginRequest;
+import com.snacky.FoodOrderingApp_Back.Dto.RegisterRequest;
 import com.snacky.FoodOrderingApp_Back.Model.ShoppingCart.ShoppingCart;
 import com.snacky.FoodOrderingApp_Back.Model.User.User;
 import com.snacky.FoodOrderingApp_Back.Model.User.UserRoles;
@@ -47,9 +48,9 @@ public class AuthController {
 
     //let's write sign up method.
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws Exception {
+    public ResponseEntity<AuthResponse> createUserHandler(@RequestBody RegisterRequest request) throws Exception {
 
-       Optional <User> isEmailExist = userRepo.findByEmail(user.getEmail());
+       Optional <User> isEmailExist = userRepo.findByEmail(request.getEmail());
 
        //let's check first if user exists in database.
        if(isEmailExist.isPresent()){
@@ -58,11 +59,14 @@ public class AuthController {
 
        //if not, create new user.
            User createUser = new User();
-           createUser.setEmail(user.getEmail());
-           createUser.setPassword(passwordEncoder.encode(user.getPassword())); //this is the form of bcrypt;
-           createUser.setFirstName(user.getFirstName());
-           createUser.setLastName(user.getLastName());
-           createUser.setRole(user.getRole());
+           createUser.setEmail(request.getEmail());
+           createUser.setPassword(passwordEncoder.encode(request.getPassword())); //this is the form of bcrypt;
+           createUser.setFirstName(request.getFirstName());
+           createUser.setLastName(request.getLastName());
+           createUser.setEmail(request.getEmail());
+           createUser.setPassword(passwordEncoder.encode(request.getPassword()));
+           createUser.setPhoneNumber(request.getPhoneNumber());
+           createUser.setRole(request.getRole());
 
           User saveUser = userRepo.save(createUser);// this is saving to db.
 
@@ -70,7 +74,7 @@ public class AuthController {
            shoppingCart.setCustomer(saveUser);
            shoppingCartRepo.save(shoppingCart);
 
-           Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+           Authentication auth = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
            SecurityContextHolder.getContext().setAuthentication(auth);
 
            //after authenticating, we need to generate token.

@@ -21,19 +21,20 @@ import java.util.Collections;
 public class AppConfig {
     // Basically we are configuring spring security here.
 
-
-    SecurityFilterChain springSecurityFilterChain(HttpSecurity http) throws Exception {
+    @Bean//we use this so that spring will take care of this custom filter chain.
+    SecurityFilterChain customSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(Authorize -> Authorize
                         .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "RESTAURANT_OWNER")//Any end point starts with api-admin, only available for owners and admin.
                         .requestMatchers("/api/**").authenticated()// any end point starts with api user can access with token.
+                        .requestMatchers("/").permitAll()
                         .anyRequest().permitAll()
                 ).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
-        return null;
+        return http.build();
     }
 
     //In this part we are giving access key to specific front end urls to reach backend.
