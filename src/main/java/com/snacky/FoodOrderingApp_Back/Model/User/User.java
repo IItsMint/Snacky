@@ -1,6 +1,7 @@
 package com.snacky.FoodOrderingApp_Back.Model.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.snacky.FoodOrderingApp_Back.Dto.RestaurantDto;
 import com.snacky.FoodOrderingApp_Back.Model.Address.Address;
 import com.snacky.FoodOrderingApp_Back.Model.Order.Order;
@@ -37,13 +38,16 @@ public class User {
     private String email;
 
     @Column(name = "password", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)//sensitive info so, we restrict the front end access.
     private String password;
 
     @Column(name = "phone_number",nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)//sensitive info so, we restrict the front end access.
     private String phoneNumber;
 
     //relation between user and address.
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //to delete all the addresses with user we need cascade.
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)//sensitive info so, we restrict the front end access.
     private List<Address> addresses = new ArrayList<>();
 
     @JsonIgnore //we don't need this list while fetching user.
