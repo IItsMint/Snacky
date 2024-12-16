@@ -58,7 +58,9 @@ public class User {
     @ElementCollection
     private List<RestaurantDto> favorites = new ArrayList<>();
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private UserStatus status;
 
 
 
