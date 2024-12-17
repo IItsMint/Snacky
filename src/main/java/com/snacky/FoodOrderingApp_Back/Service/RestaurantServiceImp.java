@@ -37,9 +37,13 @@ public class RestaurantServiceImp implements RestaurantService {
     @Override
     public Restaurant createRestaurant(CreateRestaurantRequest req, User user) {
 
+        //first let's take address object and save it to repo,
         Address address = addressRepo.save(req.getAddress());
-        
+
+        //second let's create new instances of a restaurant entity,
         Restaurant restaurant = new Restaurant();
+
+        //and now, let's define property.
         restaurant.setAddress(address);
         restaurant.setName(req.getName());
         restaurant.setContact(req.getContactInformation());
@@ -50,12 +54,14 @@ public class RestaurantServiceImp implements RestaurantService {
         restaurant.setCreatedAt(LocalDateTime.now());
         restaurant.setOwner(user);
 
+        //save this restaurant to the database.
         return restaurantRepo.save(restaurant);
     }
 
     @Override
     public Restaurant updateRestaurant(Long restaurantId, CreateRestaurantRequest updatedRestaurant) throws Exception {
-        return null;
+
+        Restaurant restaurant = findRestaurantById(restaurantId);
     }
 
     @Override
