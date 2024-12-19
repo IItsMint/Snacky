@@ -2,6 +2,7 @@ package com.snacky.FoodOrderingApp_Back.Service;
 
 import com.snacky.FoodOrderingApp_Back.Dto.CreateRestaurantRequest;
 import com.snacky.FoodOrderingApp_Back.Dto.RestaurantDto;
+import com.snacky.FoodOrderingApp_Back.Dto.UpdateRestaurantRequest;
 import com.snacky.FoodOrderingApp_Back.Model.Restaurant.Restaurant;
 import com.snacky.FoodOrderingApp_Back.Model.User.User;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public interface RestaurantService {
 
     public Restaurant createRestaurant(CreateRestaurantRequest req, User user);
-    public Restaurant updateRestaurant(Long restaurantId, CreateRestaurantRequest updatedRestaurant) throws Exception;
+    public Restaurant updateRestaurant(Long restaurantId, UpdateRestaurantRequest updatedRestaurant) throws Exception;
     public Restaurant deleteRestaurant(Long restaurantId) throws Exception;
     public List<Restaurant> searchRestaurant();
     public Restaurant findRestaurantById(Long restaurantId) throws Exception;

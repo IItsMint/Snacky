@@ -2,6 +2,7 @@ package com.snacky.FoodOrderingApp_Back.Service;
 
 import com.snacky.FoodOrderingApp_Back.Dto.CreateRestaurantRequest;
 import com.snacky.FoodOrderingApp_Back.Dto.RestaurantDto;
+import com.snacky.FoodOrderingApp_Back.Dto.UpdateRestaurantRequest;
 import com.snacky.FoodOrderingApp_Back.Model.Address.Address;
 import com.snacky.FoodOrderingApp_Back.Model.Restaurant.Restaurant;
 import com.snacky.FoodOrderingApp_Back.Model.User.User;
@@ -59,10 +60,61 @@ public class RestaurantServiceImp implements RestaurantService {
     }
 
     @Override
-    public Restaurant updateRestaurant(Long restaurantId, CreateRestaurantRequest updatedRestaurant) throws Exception {
+    public Restaurant updateRestaurant(Long restaurantId, UpdateRestaurantRequest updatedRestaurant) throws Exception {
 
+        // Fetch the existing restaurant
         Restaurant restaurant = findRestaurantById(restaurantId);
+
+        // Update only the provided fields from the updatedRestaurant DTO
+        if (updatedRestaurant.getName() != null) {
+            restaurant.setName(updatedRestaurant.getName());
+        }
+
+        if (updatedRestaurant.getCuisine() != null) {
+            restaurant.setCuisineType(updatedRestaurant.getCuisine());
+        }
+
+        if (updatedRestaurant.getDescription() != null) {
+            restaurant.setDescription(updatedRestaurant.getDescription());
+        }
+
+        if (updatedRestaurant.getAddress() != null) {
+            Address updatedAddress = updatedRestaurant.getAddress();
+            Address existingAddress = restaurant.getAddress();
+
+            // Update address fields individually
+            if (updatedAddress.getStreet() != null) {
+                existingAddress.setStreet(updatedAddress.getStreet());
+            }
+            if (updatedAddress.getCity() != null) {
+                existingAddress.setCity(updatedAddress.getCity());
+            }
+            if (updatedAddress.getPostalCode() != null) {
+                existingAddress.setPostalCode(updatedAddress.getPostalCode());
+            }
+            if (updatedAddress.getCountry() != null) {
+                existingAddress.setCountry(updatedAddress.getCountry());
+            }
+
+            restaurant.setAddress(existingAddress); // Save the updated address back to the restaurant
+        }
+
+        if (updatedRestaurant.getContactInformation() != null) {
+            restaurant.setContact(updatedRestaurant.getContactInformation());
+        }
+
+        if (updatedRestaurant.getImages() != null) {
+            restaurant.setImages(updatedRestaurant.getImages());
+        }
+
+        if (updatedRestaurant.getWorkingHours() != null) {
+            restaurant.setWorkingHours(updatedRestaurant.getWorkingHours());
+        }
+
+        // Save the updated restaurant back to the database
+        return restaurantRepo.save(restaurant);
     }
+
 
     @Override
     public Restaurant deleteRestaurant(Long restaurantId) throws Exception {
