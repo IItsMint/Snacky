@@ -8,11 +8,13 @@ import com.snacky.FoodOrderingApp_Back.Model.Restaurant.Restaurant;
 import com.snacky.FoodOrderingApp_Back.Model.User.User;
 import com.snacky.FoodOrderingApp_Back.Repository.AddressRepo;
 import com.snacky.FoodOrderingApp_Back.Repository.RestaurantRepo;
+import com.snacky.FoodOrderingApp_Back.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestaurantServiceImp implements RestaurantService {
@@ -29,7 +31,7 @@ public class RestaurantServiceImp implements RestaurantService {
 
     //let's call user service.
     @Autowired
-    private UserService userService;
+    private UserRepo userRepo;
 
 
     //now we can define the business logic of each method.
@@ -127,32 +129,86 @@ public class RestaurantServiceImp implements RestaurantService {
     }
 
     @Override
-    public List<Restaurant> searchRestaurant() {
-        return List.of();
+    public List<Restaurant> searchRestaurant(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            throw new IllegalArgumentException("Search keyword cannot be empty");
+        }
+        return restaurantRepo.findBySearchQuery(keyword);
     }
 
     @Override
-    public Restaurant findRestaurantById(Long restaurantId) throws Exception {
-        return null;
+    public Restaurant findRestaurantById(Long id) throws Exception {
+
+        Optional<Restaurant> optionalRestaurant = restaurantRepo.findById(id);
+
+        if(optionalRestaurant.isEmpty()){
+            throw new Exception("Restaurant not found with id" + id);
+        }
+
+        else {
+            return optionalRestaurant.get();
+        }
     }
 
     @Override
     public Restaurant findRestaurantByUserId(Long userId) throws Exception {
-        return null;
+
+        Restaurant restaurant = restaurantRepo.findByOwnerId(userId);
+
+        if(restaurant == null){
+            throw new Exception("Restaurant not found for the owner with userId: " + userId);
+        }
+
+        return restaurant;
     }
 
     @Override
     public RestaurantDto addToFavorites(Long restaurantId, User user) throws Exception {
-        return null;
+
+        // Fetch the restaurant by its ID
+        Restaurant restaurant = findRestaurantById(restaurantId);
+
+        // Create a DTO for the restaurant
+        RestaurantDto restaurantDto = new RestaurantDto();
+        restaurantDto.setId(restaurant.getId());
+        restaurantDto.setTitle(restaurant.getName());
+        restaurantDto.setDescription(restaurant.getDescription());
+        restaurantDto.setImages(restaurant.getImages());
+
+        // Check if the user already has this restaurant in their favorites
+        boolean isFavorite = user.getFavorites().stream()
+                .anyMatch(fav -> fav.getId().equals(restaurantDto.getId()));
+
+        if (isFavorite) {
+            // If it's already a favorite, remove it
+            user.getFavorites().removeIf(fav -> fav.getId().equals(restaurantDto.getId()));
+        }
+
+        else {
+            // If it's not a favorite, add it
+            user.getFavorites().add(restaurantDto);
+        }
+
+        // Save the updated user object
+        userRepo.save(user);
+
+        return restaurantDto;
     }
+
 
     @Override
     public Restaurant updateRestaurantStatus(Long id) throws Exception {
-        return null;
+
+        Restaurant restaurant = findRestaurantById(id);
+
+        //If the restaurant already open it will close, if it is already close it will open.
+        restaurant.setActive(!restaurant.isActive());
+
+        return restaurantRepo.save(restaurant);
     }
 
     @Override
     public List<Restaurant> getAllRestaurants() {
-        return List.of();
+        return restaurantRepo.findAll();
     }
 }
