@@ -13,7 +13,7 @@ public interface RestaurantService {
 
     public Restaurant createRestaurant(CreateRestaurantRequest req, User user);
     public Restaurant updateRestaurant(Long restaurantId, UpdateRestaurantRequest updatedRestaurant) throws Exception;
-    public Restaurant deleteRestaurant(Long restaurantId) throws Exception;
+    public void deleteRestaurant(Long restaurantId) throws Exception;
     public List<Restaurant> searchRestaurant();
     public Restaurant findRestaurantById(Long restaurantId) throws Exception;
     public Restaurant findRestaurantByUserId(Long userId) throws Exception;

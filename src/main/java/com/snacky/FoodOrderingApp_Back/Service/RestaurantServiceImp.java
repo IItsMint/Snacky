@@ -117,8 +117,13 @@ public class RestaurantServiceImp implements RestaurantService {
 
 
     @Override
-    public Restaurant deleteRestaurant(Long restaurantId) throws Exception {
-        return null;
+    public void deleteRestaurant(Long restaurantId) throws Exception {
+        // Find the restaurant by ID
+        Restaurant restaurant = findRestaurantById(restaurantId);
+
+        // Delete the restaurant
+        restaurantRepo.delete(restaurant);
+        // No need to return anything, just void
     }
 
     @Override
