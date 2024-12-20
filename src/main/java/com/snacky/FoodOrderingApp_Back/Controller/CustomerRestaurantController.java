@@ -1,5 +1,6 @@
 package com.snacky.FoodOrderingApp_Back.Controller;
 
+import com.snacky.FoodOrderingApp_Back.Dto.RestaurantDto;
 import com.snacky.FoodOrderingApp_Back.Model.Restaurant.Restaurant;
 import com.snacky.FoodOrderingApp_Back.Model.User.User;
 import com.snacky.FoodOrderingApp_Back.Service.RestaurantService;
@@ -41,6 +42,27 @@ public class CustomerRestaurantController {
         List<Restaurant> restaurants = restaurantService.getAllRestaurants();
 
         return new ResponseEntity<>(restaurants, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Restaurant> findRestaurantById(@PathVariable Long id,
+                                                         @RequestHeader("Authorization") String jwt) throws Exception{
+
+        User user = userService.findByJwtToken(jwt);
+
+        Restaurant restaurant = restaurantService.findRestaurantById(id);
+        return new ResponseEntity<>(restaurant, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/favourites")
+    public ResponseEntity<RestaurantDto> addFavourites(@PathVariable Long id,
+                                                    @RequestHeader("Authorization") String jwt) throws Exception{
+
+        User user = userService.findByJwtToken(jwt);
+
+        RestaurantDto restaurantDto = restaurantService.addToFavorites(id, user);
+
+        return new ResponseEntity<>(restaurantDto, HttpStatus.CREATED);
     }
 
 
