@@ -73,6 +73,20 @@ public class AdminRestaurantController {
         return new ResponseEntity<>(updateRestaurantStatus, HttpStatus.OK);
     }
 
+    //let's implement find restaurant with user id.
+    @GetMapping("/user/restaurant")
+    public ResponseEntity<Restaurant> findRestaurantByUserId(@RequestHeader("Authorization") String jwt) throws Exception {
+
+        //we don't need to use path variable since we can take the user from jwt.
+        User user = userService.findByJwtToken(jwt);
+
+        //since we took it from jwt, we have to use like user.getId we cant just provide id,
+        // since it is no directly coming from client.
+        Restaurant restaurant = restaurantService.findRestaurantByUserId(user.getId());
+
+        return new ResponseEntity<>(restaurant, HttpStatus.OK);
+    }
+
 
 
 
