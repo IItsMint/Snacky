@@ -61,6 +61,19 @@ public class AdminRestaurantController {
             return new ResponseEntity<>(deletedRestaurant, HttpStatus.OK);
     }
 
+    //let's implement the boolean, status restaurant.
+    @PutMapping("/{id}/status")
+    public  ResponseEntity<Restaurant> updateRestaurantStatus(@PathVariable Long id,
+                                                              @RequestHeader("Authorization") String jwt) throws Exception {
+
+        User user = userService.findByJwtToken(jwt);
+
+        Restaurant updateRestaurantStatus = restaurantService.updateRestaurantStatus(id);
+
+        return new ResponseEntity<>(updateRestaurantStatus, HttpStatus.OK);
+    }
+
+
 
 
 
