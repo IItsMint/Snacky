@@ -87,10 +87,4 @@ public class AdminRestaurantController {
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
 
-
-
-
-
-
-
 }
