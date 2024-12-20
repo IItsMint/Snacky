@@ -25,7 +25,7 @@ public class AdminRestaurantController {
     //we used post for creating.
     @PostMapping
     public ResponseEntity<Restaurant> createRestaurant(@RequestBody CreateRestaurantRequest req,//we are requesting body here.
-                                                       @RequestHeader("Authorization") String jwt) throws Exception {//JWT token to fetch the user details.
+                                                       @RequestHeader("authorization") String jwt) throws Exception {//JWT token to fetch the user details.
         //first we need to get user from jwt.
         User user = userService.findByJwtToken(jwt);
 

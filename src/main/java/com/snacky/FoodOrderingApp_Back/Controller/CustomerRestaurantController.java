@@ -54,6 +54,7 @@ public class CustomerRestaurantController {
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
 
+    //we don't need the full entity since we only need related fields like name, description etc. So we used DTO.
     @PutMapping("/{id}/favourites")
     public ResponseEntity<RestaurantDto> addFavourites(@PathVariable Long id,
                                                     @RequestHeader("Authorization") String jwt) throws Exception{

@@ -27,7 +27,7 @@ public class AppConfig {
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(Authorize -> Authorize
-                        .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "RESTAURANT_OWNER")//Any end point starts with api-admin, only available for owners and admin.
+                        .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "OWNER")//Any end point starts with api-admin, only available for owners and admin.
                         .requestMatchers("/api/**").authenticated()// any end point starts with api user can access with token.
                         .requestMatchers("/").permitAll()
                         .anyRequest().permitAll()
