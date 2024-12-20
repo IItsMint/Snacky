@@ -1,5 +1,6 @@
 package com.snacky.FoodOrderingApp_Back.Controller;
 
+import com.snacky.FoodOrderingApp_Back.Config.MessageResponse;
 import com.snacky.FoodOrderingApp_Back.Dto.CreateRestaurantRequest;
 import com.snacky.FoodOrderingApp_Back.Dto.UpdateRestaurantRequest;
 import com.snacky.FoodOrderingApp_Back.Model.Restaurant.Restaurant;
@@ -47,6 +48,22 @@ public class AdminRestaurantController {
 
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
+
+    //lets implement delete method.
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Restaurant> deleteRestaurant(@PathVariable Long id,
+                                                           @RequestHeader("Authorization") String jwt) throws Exception {
+
+            User user = userService.findByJwtToken(jwt);
+
+            Restaurant deletedRestaurant = restaurantService.deleteRestaurant(id);
+
+            return new ResponseEntity<>(deletedRestaurant, HttpStatus.OK);
+    }
+
+
+
+
 
 
 }
