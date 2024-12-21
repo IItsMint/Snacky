@@ -27,7 +27,7 @@ public class ProductServiceImp implements ProductService {
 
         Product product = new Product();
 
-        // Directly passed as a method parameter.
+        // Directly passed as a method parameter. Since they are already fetched while creating.
         product.setProductCategory(category);
         product.setRestaurant(restaurant);
 
@@ -53,7 +53,8 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public List<Product> getAllProducts(Long restaurantId, boolean isVegan, boolean isSeasonal, String productCategory) {
-        return List.of();
+
+
     }
 
     @Override
@@ -74,5 +75,10 @@ public class ProductServiceImp implements ProductService {
     @Override
     public void deleteProduct(Long productId) throws Exception {
 
+        Product product = productRepo.findById(productId)
+                .orElseThrow(() -> new Exception("Product not found with id: " + productId));
+
+        productRepo.delete(product);
     }
+
 }
