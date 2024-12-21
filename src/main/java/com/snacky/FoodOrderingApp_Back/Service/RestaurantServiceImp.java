@@ -143,7 +143,7 @@ public class RestaurantServiceImp implements RestaurantService {
         Optional<Restaurant> optionalRestaurant = restaurantRepo.findById(id);
 
         if(optionalRestaurant.isEmpty()){
-            throw new Exception("Restaurant not found with id" + id);
+            throw new Exception("Restaurant not found with id: " + id);
         }
 
         else {
