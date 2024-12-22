@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -102,17 +103,32 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public List<Product> searchProduct(String keyword) {
-        return List.of();
+
+        return productRepo.searchProduct(keyword);
     }
 
     @Override
     public Product findProductById(Long id) throws Exception {
-        return null;
+
+        //it is optional for either product is present or not.
+        Optional<Product> optProduct = productRepo.findById(id);
+
+        if (optProduct.isEmpty()) {
+            throw new Exception("Product does not exist.");
+        }
+
+        return optProduct.get();
     }
 
     @Override
     public Product updateStatus(Long productId) throws Exception {
-        return null;
+
+        Product product = findProductById(productId);
+
+        product.setAvailable(!product.isAvailable());
+
+        productRepo.save(product);
+        return product;
     }
 
     @Override
