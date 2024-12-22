@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImp implements ProductService {
@@ -80,11 +81,13 @@ public class ProductServiceImp implements ProductService {
 
 
     private List<Product> filterBySeasonal(List<Product> products, boolean isSeasonal) {
+
+        return products.stream().filter(product -> product.isSeasonal() == isSeasonal).collect(Collectors.toList());
     }
 
     private List<Product> filterByVegan(List<Product> products, boolean isVegan) {
-        
-        
+
+        return products.stream().filter(product -> product.isVegan() == isVegan).collect(Collectors.toList());
     }
 
     @Override
