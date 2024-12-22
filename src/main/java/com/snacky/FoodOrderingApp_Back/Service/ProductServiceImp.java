@@ -76,7 +76,17 @@ public class ProductServiceImp implements ProductService {
     }
 
     //let's implement those filter methods,
+    //whenever we want to apply filter we need stream.
     private List<Product> filterByCategory(List<Product> products, String productCategory) {
+
+        return products.stream().filter(product -> {
+            //if product category is not null, we get the name from front end.
+            if(product.getProductCategory() != null){
+                    return product.getProductCategory().getName().equals(productCategory);
+                }
+
+            return false;
+        }).collect(Collectors.toList());
     }
 
 
