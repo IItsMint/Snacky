@@ -47,6 +47,7 @@ public class ProductServiceImp implements ProductService {
         if (restaurant.getProduct() != null) {
             restaurant.getProduct().add(savedProduct);
         }
+        
 
         return savedProduct;
     }
@@ -54,7 +55,36 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<Product> getAllProducts(Long restaurantId, boolean isVegan, boolean isSeasonal, String productCategory) {
 
+        List<Product> products = productRepo.findByRestaurantId(restaurantId);
 
+        if (isVegan) {
+            products = filterByVegan(products, isVegan);
+        }
+        
+        if(isSeasonal){
+            products = filterBySeasonal(products, isSeasonal);
+        }
+
+        if(productCategory != null && !productCategory.isEmpty()) {
+
+            products = filterByCategory(products, productCategory);
+
+        }
+        
+        return products;
+    }
+
+    //let's implement those filter methods,
+    private List<Product> filterByCategory(List<Product> products, String productCategory) {
+    }
+
+
+    private List<Product> filterBySeasonal(List<Product> products, boolean isSeasonal) {
+    }
+
+    private List<Product> filterByVegan(List<Product> products, boolean isVegan) {
+        
+        
     }
 
     @Override
