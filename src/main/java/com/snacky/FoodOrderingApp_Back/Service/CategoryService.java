@@ -8,7 +8,7 @@ public interface CategoryService {
 
     //let's first define create category
     //we have id here so that we can find the which restaurant we wanna create the category for.
-    public Category createCategory(String categoryName, Long userId);
+    public Category createCategory(String categoryName, Long userId) throws Exception;
 
     public List<Category> findCategoryByRestaurantId(Long id) throws Exception;
 
