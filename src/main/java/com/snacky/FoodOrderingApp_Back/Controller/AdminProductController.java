@@ -43,6 +43,27 @@ public class AdminProductController {
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Product> updateProductStatus (@PathVariable Long id,
+                                                        @RequestHeader("Authorization") String jwt) throws Exception{
+        //first lets get user,
+        User user = userService.findByJwtToken(jwt);
+
+        // Find the product
+        Product product = productService.findProductById(id);
+
+        // Optional: Check if the product belongs to a restaurant owned by the user
+        Restaurant restaurant = product.getRestaurant();
+        if (restaurant == null || !restaurant.getOwner().equals(user)) {
+            throw new Exception("User not authorized to change the status of this product.");
+        }
+
+        //now find the product,
+        Product updatedProduct = productService.updateStatus(id);
+
+        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@RequestHeader("Authorization") String jwt,
                                                 @PathVariable long id) throws Exception {
@@ -52,12 +73,20 @@ public class AdminProductController {
         // Find the product
         Product product = productService.findProductById(id);
 
+        // Optional: Check if the product belongs to a restaurant owned by the user
+        Restaurant restaurant = product.getRestaurant();
+        if (restaurant == null || !restaurant.getOwner().equals(user)) {
+            throw new Exception("User not authorized to update this product.");
+        }
+
         // Delete the product
         productService.deleteProduct(id);
 
         // Return success message
         return new ResponseEntity<>("Product deleted successfully.", HttpStatus.OK);
     }
+
+
 
 
 
