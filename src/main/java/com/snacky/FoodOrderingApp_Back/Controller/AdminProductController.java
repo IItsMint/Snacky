@@ -42,4 +42,23 @@ public class AdminProductController {
 
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@RequestHeader("Authorization") String jwt,
+                                                @PathVariable long id) throws Exception {
+        // Validate the user from the JWT token
+        User user = userService.findByJwtToken(jwt);
+
+        // Find the product
+        Product product = productService.findProductById(id);
+
+        // Delete the product
+        productService.deleteProduct(id);
+
+        // Return success message
+        return new ResponseEntity<>("Product deleted successfully.", HttpStatus.OK);
+    }
+
+
+
 }
