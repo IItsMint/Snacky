@@ -37,4 +37,16 @@ public class CustomerProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
+    //now lets implement searching on a restaurant.
+    @GetMapping("/restaurant/{restaurantId}/")
+    public ResponseEntity<List<Product>> searchRestaurantProduct(@RequestParam boolean vegan,
+                                                                 @RequestParam boolean seasonal,
+                                                                 @RequestParam (required = false) String productCategory,
+                                                                 @PathVariable Long restaurantId)throws Exception{
+
+        List<Product> products = productService.getAllProducts(restaurantId, vegan, seasonal, productCategory);
+
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
 }
