@@ -58,7 +58,7 @@ public class AdminProductController {
             throw new Exception("User not authorized to change the status of this product.");
         }
 
-        //now find the product,
+        //now change the status of the product,
         Product updatedProduct = productService.updateStatus(id);
 
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
