@@ -9,7 +9,7 @@ public interface IngredientsService {
 
     //let's write all the methods for ingredients service.
 
-    public Ingredients createIngredients(Long restaurantId, String ingredientName, Long ingredientCategoryId);
+    public Ingredients createIngredients(Long restaurantId, String ingredientName, Long ingredientCategoryId)throws Exception;
     public IngredientCategory createIngredientCategory(String name, Long restaurantId) throws Exception;
     public IngredientCategory updateIngredientCategory(IngredientCategory ingredientCategory) throws Exception;
     public void deleteIngredientCategory(IngredientCategory ingredientCategory) throws Exception;
