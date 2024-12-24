@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class IngredientsServiceImp implements IngredientsService {
@@ -38,6 +39,16 @@ public class IngredientsServiceImp implements IngredientsService {
         //first let's find the restaurant,
         Restaurant restaurant = restaurantService.findRestaurantById(restaurantId);
 
+        //let's check if it is empty or not.
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Category name cannot be null or empty.");
+        }
+
+        //let's check if its exist or not.
+        if (ingredientCategoryRepo.existsByNameAndRestaurant(name, restaurant)) {
+            throw new Exception("Ingredient category with this name already exists for the restaurant.");
+        }
+
         //now we can create ingredient category.
         IngredientCategory ingredientCategory = new IngredientCategory();
 
@@ -59,8 +70,10 @@ public class IngredientsServiceImp implements IngredientsService {
 
     @Override
     public IngredientCategory findIngredientCategoryById(Long id) throws Exception {
-        return null;
+        return ingredientCategoryRepo.findById(id)
+                .orElseThrow(() -> new Exception("Ingredient category with this id does not exist."));
     }
+
 
     @Override
     public IngredientCategory getIngredientCategoryByRestaurantId(Long id) throws Exception {
