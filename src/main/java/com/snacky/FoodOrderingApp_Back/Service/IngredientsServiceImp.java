@@ -87,6 +87,26 @@ public class IngredientsServiceImp implements IngredientsService {
     }
 
     @Override
+    public Ingredients updateStock(Long id) throws Exception {
+
+        //first let's find ingredient.
+        Optional<Ingredients> optIngredient = ingredientRepo.findById(id);
+
+
+        if (optIngredient.isEmpty()) {
+            throw new IllegalArgumentException("Ingredient not found.");
+        }
+
+        Ingredients ingredients = optIngredient.get();
+
+        //now we can update the stock,
+        ingredients.setStock(!ingredients.isStock());
+
+        //now let's save.
+        return ingredientRepo.save(ingredients);
+    }
+
+    @Override
     public IngredientCategory findIngredientCategoryById(Long id) throws Exception {
         return ingredientCategoryRepo.findById(id)
                 .orElseThrow(() -> new Exception("Ingredient category with this id does not exist."));
@@ -95,13 +115,15 @@ public class IngredientsServiceImp implements IngredientsService {
 
     @Override
     public List<IngredientCategory> getIngredientCategoryByRestaurantId(Long id) throws Exception {
+
         restaurantService.findRestaurantById(id);
         return ingredientCategoryRepo.findByRestaurantId(id);
     }
 
     @Override
     public List<Ingredients> getAllIngredientsRestaurant(Long restaurantId) throws Exception {
-        return List.of();
+
+        return ingredientRepo.findByRestaurantId(restaurantId);
     }
 
 }
