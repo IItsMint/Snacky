@@ -77,13 +77,45 @@ public class IngredientsServiceImp implements IngredientsService {
     }
 
     @Override
-    public IngredientCategory updateIngredientCategory(IngredientCategory ingredientCategory) throws Exception {
-        return null;
+    public IngredientCategory updateIngredientCategory(Long id, String newName) throws Exception {
+        // Fetch the existing category
+        IngredientCategory ingredientCategory = findIngredientCategoryById(id);
+
+        // Check if the name is empty or null
+        if (newName == null || newName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Category name cannot be null or empty.");
+        }
+
+        // Check for duplicates
+        if (ingredientCategoryRepo.existsByNameAndRestaurant(newName, ingredientCategory.getRestaurant())) {
+            throw new Exception("An ingredient category with this name already exists for the restaurant.");
+        }
+
+        // Update the name
+        ingredientCategory.setName(newName);
+
+        // Save and return the updated category
+        return ingredientCategoryRepo.save(ingredientCategory);
     }
 
     @Override
-    public void deleteIngredientCategory(IngredientCategory ingredientCategory) throws Exception {
+    public void deleteIngredientCategory(Long id) throws Exception {
 
+        // Step 1: Find the ingredient category by its ID.
+        Optional<IngredientCategory> optCategory = ingredientCategoryRepo.findById(id);
+        if (optCategory.isEmpty()) {
+            throw new IllegalArgumentException("Ingredient category not found.");
+        }
+
+        IngredientCategory ingredientCategory = optCategory.get();
+
+        // Step 2: Check if the category has any associated ingredients.
+        if (!ingredientCategory.getIngredients().isEmpty()) {
+            throw new Exception("Cannot delete ingredient category as it has associated ingredients.");
+        }
+
+        // Step 3: Delete the category.
+        ingredientCategoryRepo.delete(ingredientCategory);
     }
 
     @Override

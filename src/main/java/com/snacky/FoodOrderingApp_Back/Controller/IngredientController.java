@@ -39,14 +39,21 @@ public class IngredientController {
     @PutMapping("/restaurant/{id}/stock")
     public ResponseEntity<Ingredients> updateIngredientStock(@PathVariable Long id) throws Exception {
 
-        Ingredients ingredients = ingredientsService.updateStock(id);
+        Ingredients ingredients = ingredientsService.updae(id);
         return new ResponseEntity<>(ingredients, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/restaurant/{id}")
     public ResponseEntity<List<Ingredients>> getRestaurantIngredients(@PathVariable Long id) throws Exception {
 
         List<Ingredients> ingredients = ingredientsService.getAllIngredientsRestaurant(id);
+        return new ResponseEntity<>(ingredients, HttpStatus.OK);
+    }
+
+    @GetMapping("/restaurant/{id}/category")
+    public ResponseEntity<List<IngredientCategory>> getRestaurantIngredientCategory(@PathVariable Long id) throws Exception {
+
+        List<IngredientCategory> ingredients = ingredientsService.getIngredientCategoryByRestaurantId(id);
         return new ResponseEntity<>(ingredients, HttpStatus.OK);
     }
 
