@@ -15,7 +15,7 @@ public interface IngredientsService {
     public void deleteIngredientCategory(IngredientCategory ingredientCategory) throws Exception;
 
     public IngredientCategory findIngredientCategoryById(Long id) throws Exception;
-    public IngredientCategory getIngredientCategoryByRestaurantId(Long id) throws Exception;
+    public List<IngredientCategory> getIngredientCategoryByRestaurantId(Long id) throws Exception;
     public List<Ingredients> getAllIngredientsRestaurant(Long restaurantId) throws Exception;
 
 }
