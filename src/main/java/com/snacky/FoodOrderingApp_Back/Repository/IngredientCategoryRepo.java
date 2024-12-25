@@ -11,4 +11,6 @@ public interface IngredientCategoryRepo extends JpaRepository<IngredientCategory
     //with this method we are checking with duplicates in service layer.
     boolean existsByNameAndRestaurant(String name, Restaurant restaurant);
     List<IngredientCategory> findByRestaurantId(Long id);
+    void deleteIngredientCategoryById(Long id);
+    IngredientCategory save(IngredientCategory ingredientCategory);
 }

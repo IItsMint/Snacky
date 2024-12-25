@@ -115,7 +115,7 @@ public class IngredientsServiceImp implements IngredientsService {
         }
 
         // Step 3: Delete the category.
-        ingredientCategoryRepo.delete(ingredientCategory);
+        ingredientCategoryRepo.deleteIngredientCategoryById(id);
     }
 
     @Override
