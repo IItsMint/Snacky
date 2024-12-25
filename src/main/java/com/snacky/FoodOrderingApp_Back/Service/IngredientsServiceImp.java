@@ -30,7 +30,25 @@ public class IngredientsServiceImp implements IngredientsService {
     @Override
     public Ingredients createIngredients(Long restaurantId, String ingredientName, Long ingredientCategoryId) throws Exception {
 
-        return null;
+        //first let's find the restaurant,
+        Restaurant restaurant = restaurantService.findRestaurantById(restaurantId);
+
+        //we need to find the ingredient category.
+        IngredientCategory ingredientCategory = findIngredientCategoryById(ingredientCategoryId);
+
+        //let's create and set  ingredients properties.
+        Ingredients ingredients = new Ingredients();
+        ingredients.setName(ingredientName);
+        ingredients.setRestaurant(restaurant);
+        ingredients.setCategory(ingredientCategory);
+
+        //now we can save it.
+        Ingredients savedIngredients = ingredientRepo.save(ingredients);
+
+        //Adds the newly created ingredient to the ingredients collection of the category
+        ingredientCategory.getIngredients().add(savedIngredients);
+
+        return ingredients;
     }
 
     @Override
