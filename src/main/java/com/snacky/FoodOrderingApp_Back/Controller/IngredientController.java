@@ -39,7 +39,7 @@ public class IngredientController {
     @PutMapping("/restaurant/{id}/stock")
     public ResponseEntity<Ingredients> updateIngredientStock(@PathVariable Long id) throws Exception {
 
-        Ingredients ingredients = ingredientsService.updae(id);
+        Ingredients ingredients = ingredientsService.updateStock(id);
         return new ResponseEntity<>(ingredients, HttpStatus.OK);
     }
 
@@ -55,6 +55,38 @@ public class IngredientController {
 
         List<IngredientCategory> ingredients = ingredientsService.getIngredientCategoryByRestaurantId(id);
         return new ResponseEntity<>(ingredients, HttpStatus.OK);
+    }
+
+    @PutMapping("/restaurant/category/ingredient/update/{id}")
+    public ResponseEntity<IngredientCategory> updateIngredientCategory(@PathVariable Long id,
+                                                                       @RequestBody String newCategoryName) {
+        try {
+            // Call service to update the category with the new name.
+            IngredientCategory updated = ingredientsService.updateIngredientCategory(id, newCategoryName);
+
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+        }
+        catch (IllegalArgumentException e) {
+            // Handle the case where the ingredient category is not found or invalid.
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            // Handle general errors, if necessary.
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @DeleteMapping("/restaurant/ingredient/category/delete/{id}")
+    public ResponseEntity<String> deleteIngredientCategory(@PathVariable Long id) {
+
+        try {
+            ingredientsService.deleteIngredientCategory(id);
+            return new ResponseEntity<>("Ingredient category deleted successfully.", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>("Error deleting ingredient category: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
