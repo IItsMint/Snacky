@@ -54,6 +54,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
         newShoppingCartProduct.setProduct(product);
         newShoppingCartProduct.setCart(shoppingCart);
         newShoppingCartProduct.setQuantity(request.getQuantity());
+        newShoppingCartProduct.setIngredients(request.getIngredients());
         newShoppingCartProduct.setTotalPrice(request.getQuantity() * product.getPrice());
 
         //now let's save it.
