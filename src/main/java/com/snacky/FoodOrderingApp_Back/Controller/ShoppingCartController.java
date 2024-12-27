@@ -1,6 +1,7 @@
 package com.snacky.FoodOrderingApp_Back.Controller;
 
 import com.snacky.FoodOrderingApp_Back.Dto.AddToShoppingCartRequest;
+import com.snacky.FoodOrderingApp_Back.Dto.UpdateShoppingCartProductRequest;
 import com.snacky.FoodOrderingApp_Back.Model.ShoppingCart.ShoppingCartProduct;
 import com.snacky.FoodOrderingApp_Back.Service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,14 @@ public class ShoppingCartController {
 
         return new ResponseEntity<>(shoppingCartProduct, HttpStatus.OK);
     }
+
+    @PutMapping("/shoppingCartProduct/update")
+    public ResponseEntity<ShoppingCartProduct> updateShoppingCartProduct(@RequestBody UpdateShoppingCartProductRequest updateShoppingCartProductRequest,
+                                                                         @RequestHeader("Authorization") String jwt) throws Exception{
+
+        ShoppingCartProduct shoppingCartProduct = shoppingCartService.updateShoppingCart(updateShoppingCartProductRequest.getShoppingCartProductId(), updateShoppingCartProductRequest.getQuantity());
+        return new ResponseEntity<>(shoppingCartProduct, HttpStatus.OK);
+    }
+
+
 }
