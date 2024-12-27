@@ -12,7 +12,7 @@ public interface ShoppingCartService {
     public Long calculateTotal(ShoppingCart shoppingCart)throws Exception;
 
     public ShoppingCart removeFromShoppingCart(Long shoppingCartProductId, String jwt)throws Exception;
-    public ShoppingCart findShoppingCartById(Long id)throws Exception;
+    public ShoppingCart findShoppingCartById(String jwt)throws Exception;
     public ShoppingCart findShoppingCartByUserId(Long userId)throws Exception;
     public ShoppingCart cancelShoppingCart(String jwt)throws Exception;
 }

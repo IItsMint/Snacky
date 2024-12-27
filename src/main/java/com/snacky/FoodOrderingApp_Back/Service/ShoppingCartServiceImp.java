@@ -125,12 +125,14 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCart findShoppingCartById(Long id) throws Exception {
+    public ShoppingCart findShoppingCartById(String  jwt) throws Exception {
 
-        Optional<ShoppingCart> optShoppingCart = shoppingCartRepo.findById(id);
+        User user = userService.findByJwtToken(jwt);
+
+        Optional<ShoppingCart> optShoppingCart = shoppingCartRepo.findById(user.getId());
 
         if(optShoppingCart.isEmpty()){
-            throw new Exception("Shopping cart does not found with this id: "+id);
+            throw new Exception("Shopping cart does not found with this id: "+user.getId());
         }
 
         return optShoppingCart.get();

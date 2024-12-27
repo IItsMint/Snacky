@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class ShoppingCartController {
@@ -51,5 +53,10 @@ public class ShoppingCartController {
         return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
     }
 
+    @GetMapping("/shoppingCart")
+    public ResponseEntity<ShoppingCart> findUserShoppingCart (@RequestHeader("Authorization") String jwt) throws Exception{
 
+        ShoppingCart shoppingCart = shoppingCartService.findShoppingCartById(jwt);
+        return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
+    }
 }
