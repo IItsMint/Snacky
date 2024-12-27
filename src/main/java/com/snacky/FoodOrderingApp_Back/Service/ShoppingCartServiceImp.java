@@ -44,7 +44,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
         //first lets check if it is already exists in customer's shopping cart we update it.
         for (ShoppingCartProduct shoppingCartProduct : shoppingCart.getItems()){
 
-            if (shoppingCartProduct.getProduct().getId() == product.getId()){
+            if (shoppingCartProduct.getProduct().getId().equals(product.getId())) {
                 int newQuantity = shoppingCartProduct.getQuantity() + 1;
                 return updateShoppingCart(shoppingCartProduct.getId(), newQuantity);
             }
