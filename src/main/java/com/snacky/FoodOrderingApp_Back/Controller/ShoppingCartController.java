@@ -2,6 +2,7 @@ package com.snacky.FoodOrderingApp_Back.Controller;
 
 import com.snacky.FoodOrderingApp_Back.Dto.AddToShoppingCartRequest;
 import com.snacky.FoodOrderingApp_Back.Dto.UpdateShoppingCartProductRequest;
+import com.snacky.FoodOrderingApp_Back.Model.ShoppingCart.ShoppingCart;
 import com.snacky.FoodOrderingApp_Back.Model.ShoppingCart.ShoppingCartProduct;
 import com.snacky.FoodOrderingApp_Back.Service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,15 @@ public class ShoppingCartController {
 
         ShoppingCartProduct shoppingCartProduct = shoppingCartService.updateShoppingCart(updateShoppingCartProductRequest.getShoppingCartProductId(), updateShoppingCartProductRequest.getQuantity());
         return new ResponseEntity<>(shoppingCartProduct, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/shoppingCart/{id}/delete")
+    public ResponseEntity<ShoppingCart> deleteShoppingCartProduct(@PathVariable Long id,
+                                                                  @RequestHeader("Authorization") String jwt) throws Exception{
+
+        ShoppingCart shoppingCart= shoppingCartService.removeFromShoppingCart(id, jwt);
+
+        return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
     }
 
 

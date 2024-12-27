@@ -88,7 +88,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartProduct removeFromShoppingCart(Long shoppingCartItemId, String jwt) throws Exception {
+    public ShoppingCart removeFromShoppingCart(Long shoppingCartItemId, String jwt) throws Exception {
 
         //first let's find the user.
         User user = userService.findByJwtToken(jwt);
@@ -109,7 +109,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
         // Delete the product (if necessary, depending on cascading and orphan removal)
         shoppingCartProductRepo.delete(shoppingCartProduct);
 
-        return shoppingCartProduct;
+        return shoppingCart;
     }
 
     @Override
