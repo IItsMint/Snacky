@@ -44,7 +44,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
 
         //now we need to create shopping cart product,
         //first lets check if it is already exists in customer's shopping cart we update it.
-        for (ShoppingCartProduct shoppingCartProduct : shoppingCart.getItems()){
+        for (ShoppingCartProduct shoppingCartProduct : shoppingCart.getProducts()){
 
             if (shoppingCartProduct.getProduct().getId().equals(product.getId())) {
                 int newQuantity = shoppingCartProduct.getQuantity() + 1;
@@ -63,7 +63,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
         ShoppingCartProduct savedShoppingCartProduct = shoppingCartProductRepo.save(newShoppingCartProduct);
 
         //after saving we need to add to shopping cart as well.
-        shoppingCart.getItems().add(savedShoppingCartProduct);
+        shoppingCart.getProducts().add(savedShoppingCartProduct);
 
         return savedShoppingCartProduct;
     }
@@ -89,7 +89,27 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
 
     @Override
     public ShoppingCartProduct removeFromShoppingCart(Long shoppingCartItemId, String jwt) throws Exception {
-        return null;
+
+        //first let's find the user.
+        User user = userService.findByJwtToken(jwt);
+
+        //now let's find the shopping cart with the user id we just extracted from jwt.
+        ShoppingCart shoppingCart = shoppingCartRepo.findByCustomerId(user.getId());
+
+        //now from this cart, we need to remove shopping cart product, so we need to find the shopping cart product.
+        Optional<ShoppingCartProduct> optShoppingCartProduct = shoppingCartProductRepo.findById(shoppingCartItemId);
+        if(optShoppingCartProduct.isEmpty()){
+            throw new Exception("Shopping cart  product does not found");
+        }
+        ShoppingCartProduct shoppingCartProduct = optShoppingCartProduct.get();
+
+        //now let's remove it.
+        shoppingCart.getProducts().remove(shoppingCartProduct);
+
+        // Delete the product (if necessary, depending on cascading and orphan removal)
+        shoppingCartProductRepo.delete(shoppingCartProduct);
+
+        return shoppingCartProduct;
     }
 
     @Override

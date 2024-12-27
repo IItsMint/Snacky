@@ -23,7 +23,7 @@ public class ShoppingCart {
     private User customer;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ShoppingCartProduct> items = new ArrayList<>();
+    private List<ShoppingCartProduct> products = new ArrayList<>();
 
     private Long total;
 
