@@ -113,8 +113,14 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartProduct calculateTotal(ShoppingCart shoppingCart) throws Exception {
-        return null;
+    public Long calculateTotal(ShoppingCart shoppingCart) throws Exception {
+
+        Long total = 0L;
+
+        for (ShoppingCartProduct shoppingCartProduct : shoppingCart.getProducts()) {
+            total += shoppingCartProduct.getTotalPrice()*shoppingCartProduct.getQuantity();
+        }
+        return total;
     }
 
     @Override
