@@ -11,6 +11,8 @@ import com.snacky.FoodOrderingApp_Back.Repository.ShoppingCartRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ShoppingCartServiceImp implements ShoppingCartService {
 
@@ -68,7 +70,21 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
 
     @Override
     public ShoppingCartProduct updateShoppingCart(Long shoppingCartId, int quantity) throws Exception {
-        return null;
+
+        //first let's find the product that we are gonna update,
+        Optional<ShoppingCartProduct> optShoppingCartProduct = shoppingCartProductRepo.findById(shoppingCartId);
+
+        if(optShoppingCartProduct.isEmpty()){
+            throw new Exception("Shopping cart  product does not found");
+        }
+
+        //if it is not empty, we should have in the database,
+        ShoppingCartProduct shoppingCartProduct = optShoppingCartProduct.get();
+        shoppingCartProduct.setQuantity(quantity);
+
+        shoppingCartProduct.setTotalPrice(shoppingCartProduct.getProduct().getPrice() * quantity);
+
+        return shoppingCartProductRepo.save(shoppingCartProduct);
     }
 
     @Override
