@@ -29,7 +29,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
 
     //let's call the unimplemented methods.
     @Override
-    public ShoppingCart addToShoppingCart(AddToShoppingCartRequest request, String jwt) throws Exception {
+    public ShoppingCartProduct addToShoppingCart(AddToShoppingCartRequest request, String jwt) throws Exception {
 
         //first let's find the user.
         User user = userService.findByJwtToken(jwt);
@@ -58,37 +58,41 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
         newShoppingCartProduct.setTotalPrice(request.getQuantity() * product.getPrice());
 
         //now let's save it.
-        shoppingCartProductRepo.save(newShoppingCartProduct);
-        return shoppingCart;
+        ShoppingCartProduct savedShoppingCartProduct = shoppingCartProductRepo.save(newShoppingCartProduct);
+
+        //after saving we need to add to shopping cart as well.
+        shoppingCart.getItems().add(savedShoppingCartProduct);
+
+        return savedShoppingCartProduct;
     }
 
     @Override
-    public ShoppingCart updateShoppingCart(Long shoppingCartId, int quantity) throws Exception {
+    public ShoppingCartProduct updateShoppingCart(Long shoppingCartId, int quantity) throws Exception {
         return null;
     }
 
     @Override
-    public ShoppingCart removeFromShoppingCart(Long shoppingCartItemId, String jwt) throws Exception {
+    public ShoppingCartProduct removeFromShoppingCart(Long shoppingCartItemId, String jwt) throws Exception {
         return null;
     }
 
     @Override
-    public ShoppingCart calculateTotal(ShoppingCart shoppingCart) throws Exception {
+    public ShoppingCartProduct calculateTotal(ShoppingCart shoppingCart) throws Exception {
         return null;
     }
 
     @Override
-    public ShoppingCart findShoppingCartById(Long id) throws Exception {
+    public ShoppingCartProduct findShoppingCartById(Long id) throws Exception {
         return null;
     }
 
     @Override
-    public ShoppingCart findShoppingCartByUserId(Long userId) throws Exception {
+    public ShoppingCartProduct findShoppingCartByUserId(Long userId) throws Exception {
         return null;
     }
 
     @Override
-    public ShoppingCart cancelShoppingCart(Long userId) throws Exception {
+    public ShoppingCartProduct cancelShoppingCart(Long userId) throws Exception {
         return null;
     }
 }
