@@ -149,10 +149,13 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCart cancelShoppingCart(Long userId) throws Exception {
+    public ShoppingCart cancelShoppingCart(String jwt) throws Exception {
 
-        //first lets find the shopping cart,
-        ShoppingCart shoppingCart = findShoppingCartByUserId(userId);
+        //first let's find the user.
+        User user = userService.findByJwtToken(jwt);
+
+        //than, lets find the shopping cart,
+        ShoppingCart shoppingCart = findShoppingCartByUserId(user.getId());
 
         //let's clear it
         shoppingCart.getProducts().clear();

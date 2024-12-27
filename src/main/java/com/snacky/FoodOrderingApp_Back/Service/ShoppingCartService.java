@@ -14,5 +14,5 @@ public interface ShoppingCartService {
     public ShoppingCart removeFromShoppingCart(Long shoppingCartProductId, String jwt)throws Exception;
     public ShoppingCart findShoppingCartById(Long id)throws Exception;
     public ShoppingCart findShoppingCartByUserId(Long userId)throws Exception;
-    public ShoppingCart cancelShoppingCart(Long userId)throws Exception;
+    public ShoppingCart cancelShoppingCart(String jwt)throws Exception;
 }

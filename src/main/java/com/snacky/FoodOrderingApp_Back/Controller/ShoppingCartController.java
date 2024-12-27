@@ -44,5 +44,12 @@ public class ShoppingCartController {
         return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
     }
 
+    @PutMapping("/shoppingCart/clear")
+    public ResponseEntity<ShoppingCart> clearShoppingCart(@RequestHeader("Authorization") String jwt) throws Exception{
+
+        ShoppingCart shoppingCart = shoppingCartService.cancelShoppingCart(jwt);
+        return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
+    }
+
 
 }
