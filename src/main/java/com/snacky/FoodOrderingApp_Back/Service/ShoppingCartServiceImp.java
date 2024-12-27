@@ -137,12 +137,29 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartProduct findShoppingCartByUserId(Long userId) throws Exception {
-        return null;
+    public ShoppingCart findShoppingCartByUserId(Long userId) throws Exception {
+
+        ShoppingCart shoppingCart = shoppingCartRepo.findByCustomerId(userId);
+
+        if (shoppingCart == null) {
+            throw new Exception("Shopping cart does not found for user with id: " + userId);
+        }
+
+        return shoppingCart;
     }
 
     @Override
-    public ShoppingCartProduct cancelShoppingCart(Long userId) throws Exception {
-        return null;
+    public ShoppingCart cancelShoppingCart(Long userId) throws Exception {
+
+        //first lets find the shopping cart,
+        ShoppingCart shoppingCart = findShoppingCartByUserId(userId);
+
+        //let's clear it
+        shoppingCart.getProducts().clear();
+
+        //let's save it.
+        shoppingCartRepo.save(shoppingCart);
+
+        return shoppingCart;
     }
 }
