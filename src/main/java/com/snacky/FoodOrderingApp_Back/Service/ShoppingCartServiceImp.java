@@ -115,6 +115,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     @Override
     public Long calculateTotal(ShoppingCart shoppingCart) throws Exception {
 
+        //we used L near the number to become Long value with wrapper, so instead of 32-bit integer it becomes 64 bit long.
         Long total = 0L;
 
         for (ShoppingCartProduct shoppingCartProduct : shoppingCart.getProducts()) {
@@ -124,8 +125,15 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartProduct findShoppingCartById(Long id) throws Exception {
-        return null;
+    public ShoppingCart findShoppingCartById(Long id) throws Exception {
+
+        Optional<ShoppingCart> optShoppingCart = shoppingCartRepo.findById(id);
+
+        if(optShoppingCart.isEmpty()){
+            throw new Exception("Shopping cart does not found with this id: "+id);
+        }
+
+        return optShoppingCart.get();
     }
 
     @Override
