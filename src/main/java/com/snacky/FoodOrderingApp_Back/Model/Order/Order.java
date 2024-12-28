@@ -33,14 +33,14 @@ public class Order {
     private String orderStatus;
     private Date orderDate;
     private int quantity;
-    private int totalPrice;
+    private Long totalPrice;
 
 
     @ManyToOne//Relation between order and address.
     private Address deliveryAddress;
 
     @OneToMany//many items have same order.
-    private List<OrderItems> products;
+    private List<OrderProduct> products;
 
 
 }
