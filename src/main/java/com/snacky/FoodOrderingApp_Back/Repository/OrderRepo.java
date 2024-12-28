@@ -13,4 +13,5 @@ public interface OrderRepo extends JpaRepository<Order, Long> {
 
     public List<Order> findByCustomerId(Long userId);
     public List<Order> findByRestaurantId(Long restaurantId);
+    List<Order> findByRestaurantIdAndOrderStatus(Long restaurantId, String orderStatus);
 }

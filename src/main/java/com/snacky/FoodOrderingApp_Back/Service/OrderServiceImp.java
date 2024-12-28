@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImp implements OrderService {
@@ -119,7 +121,13 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public Order getOrderById(Long id) throws Exception {
-        return null;
+
+        Optional<Order> optionalOrder = orderRepo.findById(id);
+
+        if(optionalOrder.isEmpty()) {
+            throw new Exception("Order not found");
+        }
+        return optionalOrder.get();
     }
 
     @Override
@@ -132,11 +140,20 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public List<Order> getUsersOrder(Long userId) throws Exception {
-        return List.of();
+        return orderRepo.findByCustomerId(userId);
     }
 
     @Override
     public List<Order> getAllOrdersRestaurant(Long restaurantId, String orderStatus) throws Exception {
-        return List.of();
+
+        //Fetch all orders for the given restaurant
+        List<Order> orders = orderRepo.findByRestaurantId(restaurantId);
+
+        //If a specific orderStatus is provided (not null), filter the orders by that status
+        if (orderStatus != null){
+            orders = orders.stream().filter(order ->
+                    order.getOrderStatus().equals(orderStatus)).collect(Collectors.toList());
+        }
+        return orders;
     }
 }
