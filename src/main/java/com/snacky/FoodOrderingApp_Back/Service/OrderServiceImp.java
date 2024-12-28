@@ -102,7 +102,19 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public Order updateOrder(Long orderId, String orderStatus) throws Exception {
-        return null;
+
+        //first let's find the order,
+        Order order = getOrderById(orderId);
+
+        //if any one of the condition true we need to change it.
+        if(orderStatus.equals("ON_THE_WAY") || order.getOrderStatus().equals("DELIVERED") ||
+                order.getOrderStatus().equals("COMPLETED") || order.getOrderStatus().equals("PENDING")) {
+
+            order.setOrderStatus(orderStatus);
+            return orderRepo.save(order);
+        }
+
+        throw new Exception("please select a valid order status");
     }
 
     @Override
@@ -113,6 +125,9 @@ public class OrderServiceImp implements OrderService {
     @Override
     public void cancelOrder(Long orderId) throws Exception {
 
+        //first let's find the order,
+        Order order = getOrderById(orderId);
+        orderRepo.deleteById(orderId);
     }
 
     @Override
