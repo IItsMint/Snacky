@@ -11,8 +11,8 @@ Dynamic order tracking and status updates.
 
 Tech Stack
 Backend:
-Java 17
-Spring Boot
-Hibernate/JPA
-MySQL/PostgreSQL
+Java 17,
+Spring Boot,
+Hibernate/JPA,
+MySQL/PostgreSQL,
 JWT Authentication
