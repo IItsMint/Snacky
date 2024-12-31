@@ -14,6 +14,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
    //let's add custom query methods for the best practice,
    Optional<User> findByEmail(String email); //to handle null values, we used optional
 
+    //since we take userId, from jwt token we don't need to implement these right now.
     List<User> findByFirstName(String firstName);
     List<User> findByLastName(String lastName);
     List<User> findByFirstNameAndLastName(String firstName, String lastName); // Combined search

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderProductRepo extends JpaRepository<OrderProduct, Long> {
+
+    //we can add custom query methods if it is needed.
 }
