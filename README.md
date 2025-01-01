@@ -14,5 +14,5 @@ Backend:
 Java 17, 
 Spring Boot, 
 Hibernate/JPA, 
-MySQL/PostgreSQL, 
+PostgreSQL, 
 JWT Authentication
